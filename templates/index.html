@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TripMate AI - Multi-Agent Travel Planner">
+    <title>TripMate AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" defer></script>
+    <script src="{{ url_for('static', path='app.js') }}" defer></script>
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <div class="brand-mark">✈</div>
+            <div>
+                <h1>TripMate AI</h1>
+                <p>Multi-Agent Travel Planner</p>
+            </div>
+        </div>
+
+        <button class="new-trip-btn" id="newTripBtn" type="button">
+            <span>＋</span> New trip
+        </button>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Plan faster</div>
+            <button class="quick-prompt" type="button" data-prompt="Plan a 7 day trip to Japan from Dallas with a moderate budget."><span>🗾</span>Japan for 7 days</button>
+            <button class="quick-prompt" type="button" data-prompt="Plan a 5 day trip to Paris from Dallas including flights, hotels, sightseeing, and an estimated budget."><span>🗼</span>Paris city break</button>
+            <button class="quick-prompt" type="button" data-prompt="Plan a budget-friendly 6 day trip to Mexico City from Dallas."><span>🌮</span>Mexico City</button>
+            <button class="quick-prompt" type="button" data-prompt="Plan a 10 day trip to Italy from Dallas visiting Rome, Florence, and Venice."><span>🇮🇹</span>Italy multi-city</button>
+        </div>
+
+        <div class="sidebar-spacer"></div>
+
+        <div class="status-card">
+            <div class="status-row">
+                <span class="status-dot" id="apiStatusDot"></span>
+                <span id="apiStatusText">Checking API...</span>
+            </div>
+            <div class="thread-label">
+                Session <span id="threadDisplay">New</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Open menu">☰</button>
+            <div>
+                <h2>Plan your next adventure</h2>
+                <p>Flights, hotels, itinerary, and budget — all in one place.</p>
+            </div>
+            <button class="clear-btn" id="clearBtn" type="button">Reset</button>
+        </header>
+
+        <section class="chat-area" id="chatArea">
+            <div class="welcome-card" id="welcomeCard">
+                <div class="welcome-icon">🌍</div>
+                <h3>Where do you want to go?</h3>
+                <p>Tell TripMate AI where you're traveling from, where you want to go, how long you'll stay, and your preferred budget.</p>
+
+                <div class="example-grid">
+                    <button class="example-card" type="button" data-prompt="Plan a 7 day Japan trip from Dallas with a moderate budget.">
+                        <span class="example-emoji">🇯🇵</span>
+                        <strong>Tokyo & Japan</strong>
+                        <small>7 days · Moderate budget</small>
+                    </button>
+
+                    <button class="example-card" type="button" data-prompt="Plan a 5 day London trip from Dallas including flights, hotels, attractions, and a budget.">
+                        <span class="example-emoji">🇬🇧</span>
+                        <strong>London</strong>
+                        <small>5 days · City escape</small>
+                    </button>
+
+                    <button class="example-card" type="button" data-prompt="Plan a 6 day beach trip to Cancun from Dallas with affordable hotels.">
+                        <span class="example-emoji">🏝️</span>
+                        <strong>Cancún</strong>
+                        <small>6 days · Beach trip</small>
+                    </button>
+                </div>
+            </div>
+
+            <div class="messages" id="messages"></div>
+
+            <div class="typing-card hidden" id="typingCard">
+                <div class="assistant-avatar">✈</div>
+                <div class="typing-content">
+                    <div class="typing-title">TripMate AI is planning your trip</div>
+                    <div class="typing-steps">
+                        <span id="stepFlights" class="active">Searching flights</span>
+                        <span id="stepHotels">Finding hotels</span>
+                        <span id="stepItinerary">Building itinerary</span>
+                    </div>
+                    <div class="typing-dots"><span></span><span></span><span></span></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="composer-wrap">
+            <form class="composer" id="travelForm">
+                <textarea id="messageInput" rows="1" maxlength="5000" placeholder="Example: Plan a 7 day trip to Japan from Dallas under $3,000..." autocomplete="off"></textarea>
+                <button class="send-btn" id="sendBtn" type="submit" aria-label="Send message"><span>➤</span></button>
+            </form>
+            <div class="composer-footer">TripMate AI may return estimated travel information. Verify prices and availability before booking.</div>
+        </footer>
+    </main>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+</body>
+</html>
